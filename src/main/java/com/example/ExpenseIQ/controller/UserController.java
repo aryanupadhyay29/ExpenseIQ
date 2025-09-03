@@ -5,6 +5,7 @@ import com.example.ExpenseIQ.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,6 +18,10 @@ public class UserController {
     public String home() {
         return "User Service is up and running";
 
+    }
+    @GetMapping("/all")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
