@@ -1,4 +1,4 @@
-package com.example.expenseIQ;
+package com.example.ExpenseIQ;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
