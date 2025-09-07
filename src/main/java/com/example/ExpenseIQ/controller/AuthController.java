@@ -26,14 +26,19 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/login")
+
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+                new UsernamePasswordAuthenticationToken(
+                        loginRequest.getEmail(),
+                        loginRequest.getPassword()
+                )
         );
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-
-        String token = jwtUtil.generateToken(authentication);
+        String token = jwtUtil.generateToken(loginRequest.getEmail());
 
         return ResponseEntity.ok("Bearer " + token);
     }
