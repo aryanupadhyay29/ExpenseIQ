@@ -31,27 +31,29 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         String authHeader = request.getHeader("Authorization");
 
-        String username = null;
-        String jwtToken = null;
-
-        // Extract token
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwtToken = authHeader.substring(7);
-            username = jwtUtil.extractUsername(jwtToken);
-        }
+            String jwtToken = authHeader.substring(7);
+            String username = jwtUtil.extractUsername(jwtToken);
 
-        // Validate and set authentication
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            // Only authenticate if user is not already authenticated
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            if (jwtUtil.validateToken(jwtToken)) {
-                UsernamePasswordAuthenticationToken authToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                if (jwtUtil.validateToken(jwtToken)) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails,
+                                    null,
+                                    userDetails.getAuthorities()
+                            );
 
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                    // ✅ Correct way: set authentication on the SecurityContext
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
             }
         }
 
+        // Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }
