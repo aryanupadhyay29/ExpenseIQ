@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    // Find groups by a specific user (if Group has a relation with User)
-    List<Group> findByUsers_Id(Long userId);
+    // Corrected method: must match 'members' property in Group entity
+    List<Group> findByMembers_Id(Long userId);
 
     // Optional: Find group by name
     Group findByName(String name);

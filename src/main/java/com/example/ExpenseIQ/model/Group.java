@@ -1,8 +1,9 @@
 package com.example.ExpenseIQ.model;
 
 import jakarta.persistence.*;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,19 +11,19 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "groups") // 'group' is reserved in SQL
+@Table(name = "user_groups")
 public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;  // e.g., "Trip to Goa", "Roommates"
+    private String name;
 
     // A group can have many members
     @ManyToMany
     @JoinTable(
-            name = "group_users",
+            name = "group_members",
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )

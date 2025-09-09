@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ExpenseService {
+
     @Autowired
     private ExpenseRepository expenseRepository;
 
@@ -21,6 +23,9 @@ public class ExpenseService {
     }
 
     public void deleteExpense(Long id) {
+        if (!expenseRepository.existsById(id)) {
+            throw new NoSuchElementException("Expense not found with ID: " + id);
+        }
         expenseRepository.deleteById(id);
     }
 

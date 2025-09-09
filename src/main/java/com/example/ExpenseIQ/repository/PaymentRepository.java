@@ -18,6 +18,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     // Find payments related to a group
     List<Payment> findByGroup_Id(Long groupId);
 
-    // Find by transactionId (unique reference for UPI/Payment gateway)
+    // Find by transactionId
     Payment findByTransactionId(String transactionId);
 }

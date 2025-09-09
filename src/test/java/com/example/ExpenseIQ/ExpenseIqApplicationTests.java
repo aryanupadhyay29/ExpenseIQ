@@ -1,4 +1,4 @@
-package com.example.expenseIQ;
+package com.example.ExpenseIQ;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +8,6 @@ class ExpenseIqApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// simple test to ensure Spring context starts
 	}
-
 }

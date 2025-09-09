@@ -1,17 +1,19 @@
+
+
 package com.example.ExpenseIQ.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
-@Setter
-@Getter
 @Entity
-
-@AllArgsConstructor
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +30,10 @@ public class Expense {
     @JsonBackReference
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;
+
     @Override
     public String toString() {
         return "Expense{" +
@@ -37,9 +43,8 @@ public class Expense {
                 ", category='" + category + '\'' +
                 ", date=" + date +
                 ", description='" + description + '\'' +
-                ", User=" + user +
+                ", user=" + user +
+                ", group=" + group +
                 '}';
     }
-
-
 }

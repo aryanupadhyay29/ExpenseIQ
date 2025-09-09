@@ -17,20 +17,20 @@ public class UserController {
     @GetMapping("/")
     public String home() {
         return "User Service is up and running";
-
     }
+
     @GetMapping("/all")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        return userService.saveUser(user);
+        return userService.registerUser(user);
     }
 
     @GetMapping("/{id}")
     public Optional<User> getUser(@PathVariable Long id) {
         return userService.getUserById(id);
     }
-
 }
