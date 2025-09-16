@@ -29,13 +29,21 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+
+        // Skip JWT validation for public endpoints
+        if (path.startsWith("/api/auth/")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Existing JWT validation logic below
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String jwtToken = authHeader.substring(7);
             String username = jwtUtil.extractUsername(jwtToken);
 
-            // Only authenticate if user is not already authenticated
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
@@ -47,13 +55,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     userDetails.getAuthorities()
                             );
 
-                    // ✅ Correct way: set authentication on the SecurityContext
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
         }
 
-        // Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }
