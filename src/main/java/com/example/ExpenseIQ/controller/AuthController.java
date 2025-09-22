@@ -14,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -65,7 +67,14 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(loginRequest.getEmail());
 
-        return ResponseEntity.ok("Bearer " + token);
+        // 1. Create a Map to build the JSON response
+        Map<String, String> response = new HashMap<>();
+
+        // 2. Put the token into the map with a key (e.g., "token")
+        response.put("token", token);
+
+        // 3. Return the Map. Spring Boot will automatically convert it to JSON.
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me")
