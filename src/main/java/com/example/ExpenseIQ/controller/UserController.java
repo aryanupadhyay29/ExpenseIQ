@@ -2,6 +2,8 @@ package com.example.ExpenseIQ.controller;
 
 import com.example.ExpenseIQ.model.User;
 import com.example.ExpenseIQ.service.UserService;
+import com.example.ExpenseIQ.service.AuthService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +28,7 @@ public class UserController {
 
     @PostMapping("/register")
     public User registerUser(@RequestBody User user) {
-        return userService.registerUser(user);
+        return AuthService.registerUser(user);
     }
 
     @GetMapping("/{id}")
