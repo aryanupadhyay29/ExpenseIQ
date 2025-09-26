@@ -2,6 +2,7 @@ package com.example.ExpenseIQ.controller;
 
 import com.example.ExpenseIQ.Config.JwtUtil;
 import com.example.ExpenseIQ.dto.LoginRequest;
+import com.example.ExpenseIQ.dto.LoginResponse;
 import com.example.ExpenseIQ.model.User;
 import com.example.ExpenseIQ.repository.UserRepository;
 import com.example.ExpenseIQ.service.UserService;
@@ -55,7 +56,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getEmail(),
@@ -65,15 +67,20 @@ public class AuthController {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+
         String token = jwtUtil.generateToken(loginRequest.getEmail());
 
-        // 1. Create a Map to build the JSON response
-        Map<String, String> response = new HashMap<>();
 
-        // 2. Put the token into the map with a key (e.g., "token")
-        response.put("token", token);
+        User user = userService.getUserByEmail(loginRequest.getEmail());
 
-        // 3. Return the Map. Spring Boot will automatically convert it to JSON.
+
+        if (user == null) {
+
+            throw new NoSuchElementException("Authenticated user data not found.");
+        }
+
+        LoginResponse response = new LoginResponse(token, user);
+
         return ResponseEntity.ok(response);
     }
 
