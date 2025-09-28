@@ -11,5 +11,8 @@ public class ExpenseRequest {
     private String title;       // Expense title (e.g., "Dinner", "Uber Ride")
     private Double amount;      // Expense amount
     private String category;    // Food, Travel, Shopping, etc.
-    private LocalDateTime date; // Expense date (default: now)
+    private LocalDateTime date;
+    private String description ;
+
+
 }
