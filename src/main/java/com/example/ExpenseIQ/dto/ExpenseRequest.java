@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 
 @Data
 public class ExpenseRequest {
-    private Long userId;        // ID of the user who added expense
-    private Long groupId;       // (Optional) if expense belongs to a group
-    private String title;       // Expense title (e.g., "Dinner", "Uber Ride")
-    private Double amount;      // Expense amount
-    private String category;    // Food, Travel, Shopping, etc.
+    private Long userId;
+    private Long groupId;
+    private String title;
+    private Double amount;
+    private String category;
     private LocalDateTime date;
     private String description ;
 
